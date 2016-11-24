@@ -112,6 +112,7 @@ public class PixelVacuum : MonoBehaviour {
 	}
 	
 	private Vector3 dirAtAngle(float angle, float dist){
+		if(move.FacingRight() < 0) angle += 180;
 		float rads = Mathf.Deg2Rad * angle;
 		Vector3 vec = new Vector3(Mathf.Cos(rads), Mathf.Sin(rads), 0);
 		return (vec * dist);

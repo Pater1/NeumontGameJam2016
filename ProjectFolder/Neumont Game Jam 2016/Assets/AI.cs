@@ -28,6 +28,8 @@ public class AI : MonoBehaviour {
 		if((bool)ryo && !ryo.collider.gameObject.GetComponent<Die>() && !ryo.collider.isTrigger){
 			face = -face;
 		}
+		
+		transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(face,1,1), Time.deltaTime * 8);
 	}
 	
 	private void Walk(){

@@ -1,27 +1,37 @@
 Base path: C:/Program Files/Unity/Editor/Data
-Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-16980
+Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-5136
 Cmd: getPlatforms
+Cmd: preprocess
+  insize=2575 outsize=934 ok=1
 Cmd: compileSnippet
-  api=4 type=0 insize=751 outsize=3533 kw=SHADOWS_DEPTH ok=1
+  api=4 type=0 insize=1939 outsize=1266 kw=DUMMY ok=1
 Cmd: compileSnippet
-  api=4 type=1 insize=751 outsize=380 kw=SHADOWS_DEPTH ok=1
+  api=4 type=1 insize=1939 outsize=1258 kw=DUMMY ok=1
+Cmd: preprocess
+  insize=1928 outsize=743 ok=1
 Cmd: compileSnippet
-  api=4 type=0 insize=982 outsize=3979 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+  api=4 type=0 insize=1484 outsize=1266 kw=DUMMY ok=1
 Cmd: compileSnippet
-  api=4 type=1 insize=982 outsize=10561 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+  api=4 type=1 insize=1484 outsize=770 kw=DUMMY ok=1
+Cmd: preprocess
+  insize=1525 outsize=652 ok=1
 Cmd: compileSnippet
-  api=4 type=0 insize=938 outsize=4036 kw=DIRECTIONAL SHADOWS_OFF ok=1
+  api=4 type=0 insize=1172 outsize=1266 kw=DUMMY ok=1
 Cmd: compileSnippet
-  api=4 type=1 insize=938 outsize=5515 kw=DIRECTIONAL SHADOWS_OFF ok=1
+  api=4 type=1 insize=1172 outsize=933 kw=DUMMY ok=1
+Cmd: preprocess
+  insize=2451 outsize=816 ok=1
 Cmd: compileSnippet
-  api=4 type=0 insize=541 outsize=3533 kw=SHADOWS_DEPTH ok=1
+  api=4 type=0 insize=1934 outsize=1266 kw=DUMMY ok=1
 Cmd: compileSnippet
-  api=4 type=1 insize=541 outsize=453 kw=SHADOWS_DEPTH ok=1
+  api=4 type=1 insize=1934 outsize=1201 kw=DUMMY ok=1
+Cmd: preprocess
+  insize=1766 outsize=682 ok=1
 Cmd: compileSnippet
-  api=4 type=0 insize=7025 outsize=3663 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+  api=4 type=0 insize=1383 outsize=1266 kw=DUMMY ok=1
 Cmd: compileSnippet
-  api=4 type=1 insize=7025 outsize=2298 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF ok=1
+  api=4 type=1 insize=1383 outsize=1201 kw=DUMMY ok=1
 Cmd: compileSnippet
-  api=4 type=0 insize=3820 outsize=2753 kw=DIRECTIONAL ok=1
+  api=4 type=0 insize=1484 outsize=1696 kw=PIXELSNAP_ON ok=1
 Cmd: compileSnippet
-  api=4 type=1 insize=3820 outsize=2151 kw=DIRECTIONAL ok=1
+  api=4 type=1 insize=1484 outsize=770 kw=PIXELSNAP_ON ok=1

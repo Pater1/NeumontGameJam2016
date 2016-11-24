@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlatfomerMotor : MonoBehaviour {
 
-	public float jumpPower, jumpImpulse, gravity = .25f, groundMoveSpeed = 1, airMoveSpeed = .25f, downCastDist = .01f, playerHeight = .125f;
+	public float jumpPower, jumpImpulse, gravity = .25f, groundMoveSpeed = 1, airMoveSpeed = .25f, downCastDist = .01f, playerHeight = .125f, faceCastDist = .1f, playerWidth = .3f;
 	
 	public Vector3 move = new Vector3();
 	
@@ -31,8 +31,6 @@ public class PlatfomerMotor : MonoBehaviour {
 		Jump();
 		if(followCam) CamMove();
 		
-		if(move.x > 0) face = 1;
-		if(move.x < 0) face = -1;
 		
 		transform.position += move;
 	}
@@ -47,8 +45,18 @@ public class PlatfomerMotor : MonoBehaviour {
 	}
 	
 	private void Move(){
-		float moveSpeed = (isTouchingGround()) ? groundMoveSpeed : airMoveSpeed;
+		RaycastHit2D ryo = Physics2D.Raycast(transform.position + face * transform.right * playerWidth, 
+													face * transform.right, 
+													faceCastDist);
+													
+		float moveSpeed = ((bool)ryo && !ryo.collider.gameObject.GetComponent<Rigidbody2D>() && !ryo.collider.isTrigger) ? 0 : ((isTouchingGround()) ? groundMoveSpeed : airMoveSpeed);
 		move.x = moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
+		
+		
+		if(Input.GetAxis("Horizontal") > 0) face = 1;
+		if(Input.GetAxis("Horizontal") < 0) face = -1;
+		
+		transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(face,1,1), Time.deltaTime * 10);
 	}
 	
 	private float jumpBuild = 0, vertVelocity = 0;

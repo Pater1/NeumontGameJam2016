@@ -6,7 +6,6 @@ public class PixelReceptical : MonoBehaviour {
 	private SpriteRenderer rend;
 	private Texture2D tex;
 	private Collider2D col;
-	private Rigidbody2D rig;
 	private Dictionary<int, List<PixelUnit>> textReff = new Dictionary<int, List<PixelUnit>>();
 	
 	public int placablePixels = 10;
@@ -21,11 +20,6 @@ public class PixelReceptical : MonoBehaviour {
 		rend = gameObject.GetComponent<SpriteRenderer>();
 		tex = rend.sprite.texture;
 		col = gameObject.GetComponent<Collider2D>();
-		if(gameObject.GetComponent<Rigidbody2D>()){
-			rig = gameObject.GetComponent<Rigidbody2D>();
-		}else{
-			rig = null;
-		}
 		
 		if(percentTransparent < 0) percentTransparent = 0;
 		if(percentTransparent > placablePixels) percentTransparent = placablePixels;
@@ -60,16 +54,16 @@ public class PixelReceptical : MonoBehaviour {
 		percentTransparent += amountGiven;
 		RefreshTexure();
 		
-		if(percentTransparent <= 0){
+		if(percentTransparent <= 2){
 			col.isTrigger = true;
-			if(rig != null){
-				rig.Sleep();
-			}
-		}else{
+			if(gameObject.GetComponent<Rigidbody2D>()) gameObject.GetComponent<Rigidbody2D>().Sleep();
+			if(gameObject.GetComponent<AI>()) gameObject.GetComponent<AI>().enabled = false;
+			if(gameObject.GetComponent<KillOnContact>()) gameObject.GetComponent<KillOnContact>().enabled = false;
+		}else if(percentTransparent >= 2){
 			col.isTrigger = false;
-			if(rig != null){
-				rig.WakeUp();
-			}
+			if(gameObject.GetComponent<Rigidbody2D>()) gameObject.GetComponent<Rigidbody2D>().WakeUp();
+			if(gameObject.GetComponent<AI>()) gameObject.GetComponent<AI>().enabled = true;
+			if(gameObject.GetComponent<KillOnContact>()) gameObject.GetComponent<KillOnContact>().enabled = false;
 		}
 		
 		return -amountGiven;
