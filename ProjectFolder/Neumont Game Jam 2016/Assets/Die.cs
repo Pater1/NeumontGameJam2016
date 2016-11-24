@@ -10,6 +10,10 @@ public class Die : MonoBehaviour {
 	
 	public Vector3 spawn = new Vector3(), deathLocal;
 	
+	void Start(){
+		spawn = transform.position;
+	}
+	
 	public void MakeDie(){
 		gameObject.GetComponent<SpriteRenderer>().enabled = false;
 		if(gameObject.GetComponent<PlatfomerMotor>())	gameObject.GetComponent<PlatfomerMotor>().followCam = false;

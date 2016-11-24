@@ -45,11 +45,18 @@ public class PlatfomerMotor : MonoBehaviour {
 	}
 	
 	private void Move(){
-		RaycastHit2D ryo = Physics2D.Raycast(transform.position + face * transform.right * playerWidth, 
-													face * transform.right, 
-													faceCastDist);
+		bool hit = false;
+		for(float i = -playerHeight/2; i < playerHeight/2; i += .1f){
+			RaycastHit2D ryo = Physics2D.Raycast(transform.position + face * transform.right * playerWidth + transform.up * i, 
+														face * transform.right, 
+														faceCastDist);
+			if((bool)ryo && !ryo.collider.gameObject.GetComponent<Rigidbody2D>() && !ryo.collider.isTrigger){
+				hit = true;
+				break;
+			}
+		}
 													
-		float moveSpeed = ((bool)ryo && !ryo.collider.gameObject.GetComponent<Rigidbody2D>() && !ryo.collider.isTrigger) ? 0 : ((isTouchingGround()) ? groundMoveSpeed : airMoveSpeed);
+		float moveSpeed = (hit) ? 0 : ((isTouchingGround()) ? groundMoveSpeed : airMoveSpeed);
 		move.x = moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
 		
 		
@@ -62,6 +69,13 @@ public class PlatfomerMotor : MonoBehaviour {
 	private float jumpBuild = 0, vertVelocity = 0;
 	private void Jump(){
 		if(Input.GetAxis("Vertical") != 0 && jumpBuild > 0){
+			
+			RaycastHit2D hit = Physics2D.Raycast (transform.position + transform.up * playerHeight, transform.up, downCastDist * 2);
+			if(hit && hit.collider.gameObject.tag != "Permiable"){
+				jumpBuild = 0;
+				if(vertVelocity > 0) vertVelocity = 0;
+			}
+			
 			if(jumped){
 				jumpBuild -= Time.deltaTime * 2;
 				vertVelocity += jumpPower * Time.deltaTime * jumpBuild;

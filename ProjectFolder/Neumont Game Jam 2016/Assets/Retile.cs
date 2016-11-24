@@ -5,7 +5,8 @@ using Tiled2Unity;
 public class Retile : MonoBehaviour {
 	
 	public TiledMap map;
-	public GameObject ground, surface;
+	public GameObject ground = null, surface = null, rightEdge = null, leftEdge = null;
+	public Vector2 startingDencity = new Vector2(6,10);
 	
 	public List<GameObject> tiles = new List<GameObject>();
 
@@ -42,11 +43,25 @@ public class Retile : MonoBehaviour {
 		for(int x = 0; x < map.NumTilesWide; x++){
 			for(int y = 0; y > -map.NumTilesHigh; y--){
 				tileTop = transform.position + new Vector3(x * Xp + Xp/2, y * Yp, 0);
-				if(Physics2D.Raycast(tileTop - .1f * Vector3.up, -Vector3.up, Yp/2)){
-					if(Physics2D.Raycast(tileTop + .1f * Vector3.up, Vector3.up, Yp/2)){
-						AddObj(GameObject.Instantiate(ground, tileTop, Quaternion.identity) as GameObject);
-					}else{
+				RaycastHit2D hit = Physics2D.Raycast(tileTop - .1f * Vector3.up, -Vector3.up, Yp/2);
+				if(hit){
+					if(hit.collider.gameObject.GetComponent<RetileWith>()){
+						RetileWith retw = hit.collider.gameObject.GetComponent<RetileWith>();
+						surface = retw.surface;
+						rightEdge = retw.rightEdge;
+						leftEdge = retw.leftEdge;
+						ground = retw.ground;
+						startingDencity = retw.startingDencity;
+					}
+					
+					if(surface != null && !Physics2D.Raycast(tileTop + .1f * Vector3.up, Vector3.up, Yp/2)){
 						AddObj(GameObject.Instantiate(surface, tileTop, Quaternion.identity) as GameObject);
+					}else if(rightEdge != null && !Physics2D.Raycast(new Vector3((x+1) * Xp + .01f, y * Yp + Yp/2, 0), Vector3.right, Xp/2)){
+						AddObj(GameObject.Instantiate(rightEdge, tileTop, Quaternion.identity) as GameObject);
+					}else if(leftEdge != null && !Physics2D.Raycast(new Vector3(x * Xp - .01f, y * Yp + Yp/2, 0), -Vector3.right, Xp/2)){
+						AddObj(GameObject.Instantiate(leftEdge, tileTop, Quaternion.identity) as GameObject);
+					}else{
+						AddObj(GameObject.Instantiate(ground, tileTop, Quaternion.identity) as GameObject);
 					}
 				}
 			}
@@ -55,6 +70,7 @@ public class Retile : MonoBehaviour {
 	
 	private void AddObj(GameObject toAdd){
 		toAdd.transform.parent = gameObject.transform;
+		toAdd.GetComponent<PixelReceptical>().Initialize((int)Random.Range((int)startingDencity.x,(int)startingDencity.y));
 		tiles.Add(toAdd);
 	}
 	

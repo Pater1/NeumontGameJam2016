@@ -93,6 +93,7 @@ public class PixelVacuum : MonoBehaviour {
 			for(int i = 0; i < inactiveDustPixels.Count-per; i += per){
 				if((Input.GetAxis("Fire") == 0) == active || !dusting) break;
 				for(int j = i; j < i + per; j++){
+					if(j >= inactiveDustPixels.Count)break;
 					PixelObject pixo = inactiveDustPixels[j].GetComponent<PixelObject>();
 					
 					inactiveDustPixels[j].SetActive(true);
