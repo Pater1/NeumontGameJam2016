@@ -43,6 +43,7 @@ public class Retile : MonoBehaviour {
 		for(int x = 0; x < map.NumTilesWide; x++){
 			for(int y = 0; y > -map.NumTilesHigh; y--){
 				tileTop = transform.position + new Vector3(x * Xp + Xp/2, y * Yp, 0);
+				Vector3 tilePlace = tileTop - transform.up * Yp/2;
 				RaycastHit2D hit = Physics2D.Raycast(tileTop - .1f * Vector3.up, -Vector3.up, Yp/2);
 				if(hit){
 					if(hit.collider.gameObject.GetComponent<RetileWith>()){
@@ -55,13 +56,13 @@ public class Retile : MonoBehaviour {
 					}
 					
 					if(surface != null && !Physics2D.Raycast(tileTop + .1f * Vector3.up, Vector3.up, Yp/2)){
-						AddObj(GameObject.Instantiate(surface, tileTop, Quaternion.identity) as GameObject);
+						AddObj(GameObject.Instantiate(surface, tilePlace, Quaternion.identity) as GameObject);
 					}else if(rightEdge != null && !Physics2D.Raycast(new Vector3((x+1) * Xp + .01f, y * Yp + Yp/2, 0), Vector3.right, Xp/2)){
-						AddObj(GameObject.Instantiate(rightEdge, tileTop, Quaternion.identity) as GameObject);
+						AddObj(GameObject.Instantiate(rightEdge, tilePlace, Quaternion.identity) as GameObject);
 					}else if(leftEdge != null && !Physics2D.Raycast(new Vector3(x * Xp - .01f, y * Yp + Yp/2, 0), -Vector3.right, Xp/2)){
-						AddObj(GameObject.Instantiate(leftEdge, tileTop, Quaternion.identity) as GameObject);
+						AddObj(GameObject.Instantiate(leftEdge, tilePlace, Quaternion.identity) as GameObject);
 					}else{
-						AddObj(GameObject.Instantiate(ground, tileTop, Quaternion.identity) as GameObject);
+						AddObj(GameObject.Instantiate(ground, tilePlace, Quaternion.identity) as GameObject);
 					}
 				}
 			}
