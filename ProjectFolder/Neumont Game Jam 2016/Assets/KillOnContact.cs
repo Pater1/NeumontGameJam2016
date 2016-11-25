@@ -25,4 +25,8 @@ public class KillOnContact : MonoBehaviour {
 		if(gameObject.GetComponent<Animator>()) gameObject.GetComponent<Animator>().SetBool("Threat", threat);
 		gameObject.GetComponent<Collider2D>().enabled = true;
 	}
+	
+	void OnDrawGizmos(){
+		Gizmos.DrawSphere(transform.position, killRange);
+	}
 }

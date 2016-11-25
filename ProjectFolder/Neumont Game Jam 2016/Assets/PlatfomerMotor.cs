@@ -18,9 +18,11 @@ public class PlatfomerMotor : MonoBehaviour {
 	}
 	
 	private bool isTouchingGround(){
-		RaycastHit2D hit = Physics2D.Raycast (transform.position - transform.up * playerHeight, -transform.up, downCastDist);
-		if((bool)hit && !hit.collider.isTrigger){
-			return true;
+		for(float i = -playerWidth; i < playerWidth; i += .1f){
+			RaycastHit2D hit = Physics2D.Raycast (transform.position - transform.up * playerHeight + transform.right * i, -transform.up, downCastDist);
+			if((bool)hit && !hit.collider.isTrigger){
+				return true;
+			}
 		}
 		return false;
 	}

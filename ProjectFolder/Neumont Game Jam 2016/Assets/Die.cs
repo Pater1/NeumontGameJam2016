@@ -14,23 +14,28 @@ public class Die : MonoBehaviour {
 		spawn = transform.position;
 	}
 	
+	private bool dieing = false;
 	public void MakeDie(){
-		gameObject.GetComponent<SpriteRenderer>().enabled = false;
-		if(gameObject.GetComponent<PlatfomerMotor>())	gameObject.GetComponent<PlatfomerMotor>().followCam = false;
-		for(int i = 0; i < explosionCount; i++){
-			GameObject go = GameObject.Instantiate(pixel);
-			go.transform.position = gameObject.transform.position;
-			PixelObject px = go.GetComponent<PixelObject>();
-			px.StartCoroutine(px.LerpOut(transform.position + dirAtAngle(Random.Range(-180.0f,180.0f),Random.Range(explosionRange.x,explosionRange.y)),
-									Random.Range(2.0f,5.0f), 0.01f));
+		if(!dieing){
+			dieing = true;
+			gameObject.GetComponent<SpriteRenderer>().enabled = false;
+			if(gameObject.GetComponent<PlatfomerMotor>())	gameObject.GetComponent<PlatfomerMotor>().followCam = false;
+			for(int i = 0; i < explosionCount; i++){
+				GameObject go = GameObject.Instantiate(pixel);
+				go.transform.position = gameObject.transform.position;
+				PixelObject px = go.GetComponent<PixelObject>();
+				px.StartCoroutine(px.LerpOut(transform.position + dirAtAngle(Random.Range(-180.0f,180.0f),Random.Range(explosionRange.x,explosionRange.y)),
+										Random.Range(2.0f,5.0f), 0.01f));
+			}
+			deathLocal = transform.position;
+			StartCoroutine(Dieing());
 		}
-		deathLocal = transform.position;
-		StartCoroutine(Dieing());
 	}
 	
 	private IEnumerator Dieing(){
 		yield return new WaitForSeconds(watchDeathTime);
 		Reset();
+		dieing = false;
 	}
 	
 	private void Reset(){
