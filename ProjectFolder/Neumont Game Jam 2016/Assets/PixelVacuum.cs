@@ -85,6 +85,7 @@ public class PixelVacuum : MonoBehaviour {
 				break;
 			} 
 		}
+		gameObject.GetComponent<Animator>().SetBool("fire", canDust&&active);
 		if(!canDust) yield break;
 		
 		dusting = true;

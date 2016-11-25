@@ -5,6 +5,8 @@ public class PlatfomerMotor : MonoBehaviour {
 
 	public float jumpPower, jumpImpulse, gravity = .25f, groundMoveSpeed = 1, airMoveSpeed = .25f, downCastDist = .01f, playerHeight = .125f, faceCastDist = .1f, playerWidth = .3f;
 	
+	public GameObject jumpDust;
+	
 	public Vector3 move = new Vector3();
 	
 	public bool followCam = true;
@@ -18,13 +20,16 @@ public class PlatfomerMotor : MonoBehaviour {
 	}
 	
 	private bool isTouchingGround(){
+		bool touch = false;
 		for(float i = -playerWidth; i < playerWidth; i += .1f){
 			RaycastHit2D hit = Physics2D.Raycast (transform.position - transform.up * playerHeight + transform.right * i, -transform.up, downCastDist);
 			if((bool)hit && !hit.collider.isTrigger){
-				return true;
+				touch = true;
+				break;
 			}
 		}
-		return false;
+		gameObject.GetComponent<Animator>().SetBool("Jump", !touch);
+		return touch;
 	}
 	
 	// Update is called once per frame
@@ -61,6 +66,7 @@ public class PlatfomerMotor : MonoBehaviour {
 		float moveSpeed = (hit) ? 0 : ((isTouchingGround()) ? groundMoveSpeed : airMoveSpeed);
 		move.x = moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
 		
+		gameObject.GetComponent<Animator>().SetFloat("MoveSpeed", Mathf.Abs(moveSpeed * Input.GetAxis("Horizontal")));		
 		
 		if(Input.GetAxis("Horizontal") > 0) face = 1;
 		if(Input.GetAxis("Horizontal") < 0) face = -1;
@@ -86,6 +92,9 @@ public class PlatfomerMotor : MonoBehaviour {
 			}
 			
 			jumped = true;
+			
+			PixelObject pxo = (GameObject.Instantiate(jumpDust,transform.position,Quaternion.identity) as GameObject).GetComponent<PixelObject>();
+			pxo.StartCoroutine(pxo.LerpOut(transform.position - dirAtAngle(Random.Range(60f,120f),Random.Range(2,5)),2,.1f));
 		}else{
 			if(isTouchingGround()){
 				if(Input.GetAxis("Vertical") == 0){
@@ -99,5 +108,10 @@ public class PlatfomerMotor : MonoBehaviour {
 		}
 		
 		move.y = vertVelocity;
+	}
+	private Vector3 dirAtAngle(float angle, float dist){
+		float rads = Mathf.Deg2Rad * angle;
+		Vector3 vec = new Vector3(Mathf.Cos(rads), Mathf.Sin(rads), 0);
+		return (vec * dist);
 	}
 }
